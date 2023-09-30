@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Generator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
+</head>
+
+<body>
+    <style>
+        body {
+  background: #313433;
+  font-family: sans-serif;
+}
+
+.container {
+  display: flex;
+  background-color: rgb(253, 253, 252);
+  flex-direction: column;
+  text-align: center;
+  width: 30%;
+  border-radius: 15px;
+  margin: 5rem auto;
+  padding-bottom: 1%;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 70%;
+  height: 10px;
+  background: #f7be04;
+  border-radius: 15px;
+  opacity: 1;
+  -webkit-transition: 0.2s;
+  transition: opacity 0.2s;
+  margin-left: 55px;
+  margin-top: 25px;
+  margin-bottom: 20px;
+}
+
+.slider:hover {
+  opacity: 0.5;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 15px;
+  height: 15px;
+  background: #000000;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.action-btn {
+  background-color: #000;
+  border: 0;
+  color: #f7be04;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 10px;
+  margin: 10px 20px;
+  border-radius: 15px;
+  opacity: 1;
+  transition: opacity 0.2s;
+}
+
+lable {
+  display: inline;
+}
+
+.action-btn:hover {
+  opacity: 0.5;
+}
+
+.slider_main {
+  display: flex;
+  flex-direction: row;
+}
+
+input[type="checkbox"] {
+  accent-color: #f7be04;
+}
+
+.output {
+  display: flex;
+  padding: 10px;
+  justify-content: center;
+  gap: 4px;
+}
+
+.clipboard {
+  cursor: pointer;
+  border: 0;
+  background-color: white;
+  color: black;
+  border-radius: 15px;
+  font-size: 23px;
+  opacity: 1;
+  transition: opacity 0.2s;
+}
+
+.clipboard:hover {
+  opacity: 0.5;
+}
+
+#pwd_txt {
+  min-width: 8rem;
+  min-height: 1rem;
+  width: fit-content;
+  background: #f7be045c;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px dashed black;
+}
+
+#pwd_txt span {
+  color: rgb(97, 97, 97);
+}
+
+#copy_text {
+  color: #434242;
+}
+
+@media (max-width: 800px) and (min-width: 500px) {
+  .container {
+    width: 65%;
+  }
+}
+
+@media (max-width: 499px) {
+  .container {
+    width: 98%;
+  }
+}
+    </style>
+    <div class="container">
+        <h2>Password Generator</h2>
+        <div class="slider_main">
+            <input type="range" value="8" min="1" max="25" class="slider"
+                oninput="this.nextElementSibling.value = this.value" id="slider">
+            <output>8</output>
+        </div>
+        <button id="generate" class="action-btn">
+            Generate <i class="fab fa-keycdn"></i>
+        </button>
+        <label>Include special characters
+            <input type="checkbox" checked="checked" id="checkbox">
+            <span class="checkmark"></span>
+        </label>
+
+
+        <div class="output">
+            <h5 id="pwd_txt"><span>Click on Generate Button</span></h5>
+            <button id="clipboard" class="clipboard">
+                <i class="fas fa-clipboard"></i>
+            </button>
+        </div>
+        <span id="copy_text"></span>
+    </div>
+    <script>
+        const pwd = document.getElementById("pwd_txt");
+const generate = document.getElementById("generate");
+const clipboard = document.getElementById("clipboard");
+let pwd_length = document.getElementById("slider");
+let copy_text = document.getElementById("copy_text");
+let string = "ABCDEFGHIJKLMNOPQRSTUVWXYZacdefghijklnopqrstuvwxyz0123456789";
+
+generate.addEventListener("click", () => {
+  let password = "";
+  let checked = document.getElementById("checkbox").checked;
+  let final_string = string;
+  if (checked) {
+    final_string += "@#$%^&*/=+?";
+  }
+  for (let i = 0; i < pwd_length.value; i++) {
+    let pwd = final_string[Math.floor(Math.random() * final_string.length)];
+    password += pwd;
+  }
+  pwd.innerText = password;
+  final_string = string;
+});
+
+clipboard.addEventListener("click", () => {
+  navigator.clipboard.writeText(pwd.innerText);
+  copy_text.textContent = "Password Copied!";
+  copy_text.style.display = "block";
+  setTimeout(() => {
+    copy_text.style.display = "none";
+  }, 2000);
+});
+    </script>
+</body>
+
+</html>
